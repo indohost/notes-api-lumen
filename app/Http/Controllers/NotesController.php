@@ -9,13 +9,20 @@ class NotesController extends Controller
 {
     public function index()
     {
-        $notes = Notes::all();
+        try {
+            $notes = Notes::all();
 
-        return response()->json([
-            'code'      => 200,
-            'status'    => 'success',
-            'data'      => $notes,
-        ], 200);
+            return response()->json([
+                'code'      => 200,
+                'status'    => 'success',
+                'data'      => $notes,
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status'    => 'error',
+                'message'   => $e->getMessage(),
+            ], 400);
+        }
     }
 
     public function store(Request $request)
